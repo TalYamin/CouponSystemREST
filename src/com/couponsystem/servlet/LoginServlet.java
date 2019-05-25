@@ -65,7 +65,8 @@ public class LoginServlet extends HttpServlet {
 				switch (cType) {
 
 				case ADMIN:
-					request.getRequestDispatcher("?admin").forward(request, response);
+//					response.sendRedirect("http://localhost:8080/CouponSystemREST/rest/admin");
+					request.getRequestDispatcher("rest/admin").forward(request, response);
 					break;
 
 				case COMPANY:

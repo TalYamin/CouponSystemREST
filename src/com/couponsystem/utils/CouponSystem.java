@@ -71,8 +71,8 @@ public class CouponSystem {
 	public static CouponSystem getInstance() throws Exception {
 		try {
 			ConnectionPool connectionPool = ConnectionPool.getInstance();
-			dailyCouponExpirationTask = new DailyCouponExpirationTask();
-			dailyCouponExpirationTask.startTask();
+//			dailyCouponExpirationTask = new DailyCouponExpirationTask();
+//			dailyCouponExpirationTask.startTask();
 			return instance;
 		} catch (DailyTaskException e) {
 			System.out.println(e.getMessage());
@@ -163,7 +163,7 @@ public class CouponSystem {
 		try {
 			connectionPool = ConnectionPool.getInstance();
 			connectionPool.closeAllConnections();
-			dailyCouponExpirationTask.stopTask();
+	//		dailyCouponExpirationTask.stopTask();
 			System.out.println("Shutdown...");
 		} catch (Exception e) {
 			System.out.println("DailyCouponExpirationTask failed to stop");

@@ -66,7 +66,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	 * the companies in DB, Using Iterator in order to go through and check all the
 	 * list objects.
 	 */
-	public void insertCompany(Company company) throws Exception {
+	public String insertCompany(Company company) throws Exception {
 		try {
 
 			List<Company> companies = compAdminDAO.getAllCompanies();
@@ -84,6 +84,7 @@ public class AdminUserFacade implements CouponClientFacade {
 			if (!i.hasNext()) {
 				compAdminDAO.insertCompany(company);
 				System.out.println("Admin added new company: " + company.getCompanyId());
+				return "Admin added new company: " + company.getCompanyId();
 
 			}
 
@@ -93,6 +94,7 @@ public class AdminUserFacade implements CouponClientFacade {
 			throw new Exception("Admin failed to add company. companyId: " + company.getCompanyId());
 
 		}
+		return null;
 
 	}
 

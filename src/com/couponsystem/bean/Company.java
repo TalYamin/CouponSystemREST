@@ -1,5 +1,7 @@
 package com.couponsystem.bean;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author Shay Ben Haroush
  *
@@ -9,6 +11,7 @@ package com.couponsystem.bean;
  * This class sets Company type object.
  */
 
+@XmlRootElement
 public class Company {
 
 	/* Data members of Company */
