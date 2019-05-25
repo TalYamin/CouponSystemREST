@@ -77,7 +77,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 	 * the relevant objects from DB, Using Iterator in order to go through and check
 	 * all the list objects.
 	 */
-	public void insertCoupon(Coupon coupon) throws Exception {
+	public String insertCoupon(Coupon coupon) throws Exception {
 		try {
 
 			/* Check if amount is 0 */
@@ -111,6 +111,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 				com_couCompany.insertCompany_Coupon(this.company, coupon);
 				System.out.println(
 						"Company " + this.company.getCompanyName() + " added new coupon: " + coupon.getCouponId());
+				return ("Company " + this.company.getCompanyName() + " added new coupon: " + coupon.getCouponId());
 			}
 
 		} catch (EndDatePassedException e) {
@@ -121,6 +122,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 			System.out.println(e.getMessage());
 			throw new Exception("Company failed to add coupon. couponId: " + coupon.getCouponId());
 		}
+		return null;
 	}
 
 	/*

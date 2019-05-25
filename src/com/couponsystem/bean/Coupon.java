@@ -3,6 +3,8 @@ package com.couponsystem.bean;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import com.couponsystem.utils.DateConverterUtil;
 
 
@@ -16,6 +18,7 @@ import com.couponsystem.utils.DateConverterUtil;
  * This class sets Coupon type object.
  */
 
+@XmlRootElement
 public class Coupon {
 
 	/* Data members of Coupon */

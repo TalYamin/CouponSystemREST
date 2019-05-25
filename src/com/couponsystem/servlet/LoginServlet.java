@@ -70,11 +70,11 @@ public class LoginServlet extends HttpServlet {
 					break;
 
 				case COMPANY:
-					request.getRequestDispatcher("?company").forward(request, response);
+					request.getRequestDispatcher("rest/company").forward(request, response);
 					break;
 
 				case CUSTOMER:
-					request.getRequestDispatcher("?customer").forward(request, response);
+					request.getRequestDispatcher("rest/customer").forward(request, response);
 					break;
 
 				default:
