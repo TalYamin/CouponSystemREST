@@ -146,6 +146,8 @@ public class AdminService {
 	@Path("getCompany/{companyId}")
 	public Company getCompany(@PathParam("companyId") long companyId) throws Exception{
 		
+	
+		
 		System.out.println("now in getCompany");
 		
 		try {

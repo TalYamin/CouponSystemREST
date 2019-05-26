@@ -272,6 +272,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	// --------------------------
 	// Customers related methods
 	// --------------------------
+	
 
 	/*
 	 * This method receive 1 parameter: customer object.
