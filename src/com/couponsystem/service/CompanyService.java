@@ -43,12 +43,12 @@ public class CompanyService {
 
 		System.out.println("now in addCoupon");
 
-		CouponSystem couponSystem;
+//		CouponSystem couponSystem;
 		CompanyUserFacade companyUserFacade;
 
 		try {
 			System.out.println(request.getSession(false).getId());
-			couponSystem = CouponSystem.getInstance();
+//			couponSystem = CouponSystem.getInstance();
 			companyUserFacade = getFacade();
 			if (companyUserFacade.insertCoupon(coupon) != null) {
 				System.out.println("Coupon added in success " + coupon);
@@ -68,23 +68,23 @@ public class CompanyService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("getCoupon/{couponId}")
-	public String getCoupon(@PathParam("couponId") int couponId) throws Exception {
+	public String getCoupon(@PathParam("couponId") long couponId) throws Exception {
 
 		System.out.println("now in getCoupon");
 
-		CouponSystem couponSystem;
+//		CouponSystem couponSystem;
 		CompanyUserFacade companyUserFacade;
 
 		try {
 			System.out.println(request.getSession(false).getId());
-			couponSystem = CouponSystem.getInstance();
+//			couponSystem = CouponSystem.getInstance();
 			companyUserFacade = getFacade();
 			Coupon coupon = companyUserFacade.getCoupon(couponId);
 			if (coupon != null) {
-				System.out.println("Coupon added in success " + couponId);
+				System.out.println("Coupon was returned in success " + couponId);
 				return new Gson().toJson(coupon);
 			} else {
-				throw new Exception("failed to add coupon " + couponId);
+				throw new Exception("failed to get coupon " + couponId);
 			}
 
 		} catch (Exception e) {

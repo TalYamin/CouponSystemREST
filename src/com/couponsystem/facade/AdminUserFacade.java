@@ -112,7 +112,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	 * list objects. If company id doesn't exist in DB, ObjectNotFoundException is
 	 * activated.
 	 */
-	public void removeCompany(long companyId) throws Exception {
+	public String removeCompany(long companyId) throws Exception {
 
 		try {
 
@@ -142,7 +142,6 @@ public class AdminUserFacade implements CouponClientFacade {
 				 */
 				List<Coupon> couponsToRemove = coupAdminDAO.getAllCoupons(cId);
 				for (Coupon c : couponsToRemove) {
-					coupAdminDAO.removeCoupon(c);
 					List<Long> customersId = cus_couAdminDAO.getAllCustomersId();
 					List<Long> companiesId = com_couAdminDAO.getAllCompaniesId();
 					if (!customersId.isEmpty()) {
@@ -152,16 +151,19 @@ public class AdminUserFacade implements CouponClientFacade {
 						com_couAdminDAO.removeCompany_Coupon(c);
 
 					}
+					coupAdminDAO.removeCoupon(c);
 				}
 
 			}
 			/* Remove company from Company table */
 			compAdminDAO.removeCompany(compAdminDAO.getCompany(companyId));
+			return "Admin removed company successfully. companyId: " + companyId;
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Admin failed to remove company. companyId: " + companyId);
 		}
+		return null;
 
 	}
 
@@ -174,7 +176,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	 * relevant objects. Using Iterator in order to go through and check all the
 	 * list objects.
 	 */
-	public void updateCompany(long companyId, String newCompanyPassword, String newCompanyEmail) throws Exception {
+	public String updateCompany(long companyId, String newCompanyPassword, String newCompanyEmail) throws Exception {
 		try {
 
 			/* Check if compnayId exist */
@@ -197,11 +199,13 @@ public class AdminUserFacade implements CouponClientFacade {
 			company.setCompanyPassword(newCompanyPassword);
 			company.setCompanyEmail(newCompanyEmail);
 			compAdminDAO.updateCompany(company);
+			return "Admin updated company successfully. companyId: " + companyId;
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Admin failed to update company. companyId: " + companyId);
 		}
+		return null;
 	}
 
 	/*
