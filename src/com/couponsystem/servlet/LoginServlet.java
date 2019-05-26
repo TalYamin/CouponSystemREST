@@ -24,7 +24,7 @@ public class LoginServlet extends HttpServlet {
 
 	public void init() throws ServletException {
 
-		
+	
 		try {
 			system = CouponSystem.getInstance();
 		} catch (Exception e) {
