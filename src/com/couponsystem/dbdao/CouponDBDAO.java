@@ -232,8 +232,8 @@ public class CouponDBDAO implements CouponDAO {
 			coupon.setEndDate(DateConverterUtil.convertDateLocal(resultSet.getDate(4)));
 			coupon.setAmount(resultSet.getInt(5));
 			switch (resultSet.getString(6)) {
-			case "Resturants":
-				coupon.setType(CouponType.RESTURANTS);
+			case "Restaurants":
+				coupon.setType(CouponType.RESTAURANTS);
 				break;
 			case "Health":
 				coupon.setType(CouponType.HEALTH);
@@ -296,8 +296,8 @@ public class CouponDBDAO implements CouponDAO {
 				coupon.setEndDate(DateConverterUtil.convertDateLocal(resultSet.getDate(4)));
 				coupon.setAmount(resultSet.getInt(5));
 				switch (resultSet.getString(6)) {
-				case "Resturants":
-					coupon.setType(CouponType.RESTURANTS);
+				case "Restaurants":
+					coupon.setType(CouponType.RESTAURANTS);
 					break;
 				case "Health":
 					coupon.setType(CouponType.HEALTH);
@@ -364,8 +364,8 @@ public class CouponDBDAO implements CouponDAO {
 				coupon.setEndDate(DateConverterUtil.convertDateLocal(resultSet.getDate(4)));
 				coupon.setAmount(resultSet.getInt(5));
 				switch (resultSet.getString(6)) {
-				case "Resturants":
-					coupon.setType(CouponType.RESTURANTS);
+				case "Restaurants":
+					coupon.setType(CouponType.RESTAURANTS);
 					break;
 				case "Health":
 					coupon.setType(CouponType.HEALTH);
@@ -433,8 +433,8 @@ public class CouponDBDAO implements CouponDAO {
 				coupon.setEndDate(DateConverterUtil.convertDateLocal(resultSet.getDate(4)));
 				coupon.setAmount(resultSet.getInt(5));
 				switch (resultSet.getString(6)) {
-				case "Resturants":
-					coupon.setType(CouponType.RESTURANTS);
+				case "Restaurants":
+					coupon.setType(CouponType.RESTAURANTS);
 					break;
 				case "Health":
 					coupon.setType(CouponType.HEALTH);
@@ -501,8 +501,8 @@ public class CouponDBDAO implements CouponDAO {
 				coupon.setEndDate(DateConverterUtil.convertDateLocal(resultSet.getDate(4)));
 				coupon.setAmount(resultSet.getInt(5));
 				switch (resultSet.getString(6)) {
-				case "Resturants":
-					coupon.setType(CouponType.RESTURANTS);
+				case "Restaurants":
+					coupon.setType(CouponType.RESTAURANTS);
 					break;
 				case "Health":
 					coupon.setType(CouponType.HEALTH);
@@ -570,8 +570,8 @@ public class CouponDBDAO implements CouponDAO {
 				coupon.setEndDate(DateConverterUtil.convertDateLocal(resultSet.getDate(4)));
 				coupon.setAmount(resultSet.getInt(5));
 				switch (resultSet.getString(6)) {
-				case "Resturants":
-					coupon.setType(CouponType.RESTURANTS);
+				case "Restaurants":
+					coupon.setType(CouponType.RESTAURANTS);
 					break;
 				case "Health":
 					coupon.setType(CouponType.HEALTH);

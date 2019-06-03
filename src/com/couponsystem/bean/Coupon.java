@@ -5,7 +5,10 @@ import java.time.format.DateTimeFormatter;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+
 import com.couponsystem.utils.DateConverterUtil;
+
 
 
 
@@ -23,7 +26,7 @@ public class Coupon {
 
 	/* Data members of Coupon */
 	private long couponId;
-	private String title;
+	private String title; 
 	private LocalDate startDate;
 	private LocalDate endDate;
 	private int amount;

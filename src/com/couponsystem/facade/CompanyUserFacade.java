@@ -138,7 +138,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 	 * is activated. If Company try to remove company which not belongs it,
 	 * NotBelongsException is activated.
 	 */
-	public void removeCoupon(long couponId) throws Exception {
+	public String removeCoupon(long couponId) throws Exception {
 
 		try {
 
@@ -177,6 +177,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 					}
 					com_couCompany.removeCompany_Coupon(coupon);
 					coupCompanyDAO.removeCoupon(coupon);
+					return "Company " + this.company.getCompanyName() + " removed coupon: " + coupon.getCouponId();
 				} else if (!it.hasNext()) {
 					throw new NotBelongsException(
 							"Company failed to remove coupon - this coupon not belongs to this company. ",
@@ -191,6 +192,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 		} catch (Exception e) {
 			throw new Exception("Compnay failed to remove coupon. couponId: " + couponId);
 		}
+		return null;
 
 	}
 
@@ -205,7 +207,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 	 * are Lists which hold relevant objects. Using Iterator in order to go through
 	 * and check all the list objects.
 	 */
-	public void updateCoupon(long couponId, String newEndDate, double newPrice) throws Exception {
+	public String updateCoupon(long couponId, String newEndDate, double newPrice) throws Exception {
 		try {
 
 			/* Check if couponId exists */
@@ -240,6 +242,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 								coupon.getCouponId(), this.company.getCompanyId());
 					}
 					coupCompanyDAO.updateCoupon(coupon);
+					return "Company " + this.company.getCompanyName() + " updated coupon: " + coupon.getCouponId();
 				} else if (!it.hasNext()) {
 					throw new NotBelongsException(
 							"Company failed to update coupon - this coupon not belongs to this company. ",
@@ -256,6 +259,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 		} catch (Exception e) {
 			throw new Exception("Company failed to update coupon. couponId: " + couponId);
 		}
+		return null;
 	}
 
 	/*

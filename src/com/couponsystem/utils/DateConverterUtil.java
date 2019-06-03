@@ -21,6 +21,7 @@ public class DateConverterUtil {
 
 	/* DateTimeFormatter in format of Israel Local Date */
 	private static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/M/yyyy");
+
 	
 	/* static object of LocalDate */
 	private static LocalDate localDate;
@@ -47,5 +48,7 @@ public class DateConverterUtil {
 		localDate = LocalDate.parse(customDate);
 		return localDate;
 	}
+	
+	
 
 }

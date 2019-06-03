@@ -282,7 +282,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	 * the customers in DB, Using Iterator in order to go through and check all the
 	 * list objects.
 	 */
-	public void insertCustomer(Customer customer) throws Exception {
+	public String insertCustomer(Customer customer) throws Exception {
 		try {
 
 			List<Customer> customers = custAdminDAO.getAllCustomers();
@@ -300,6 +300,7 @@ public class AdminUserFacade implements CouponClientFacade {
 			if (!i.hasNext()) {
 				custAdminDAO.insertCustomer(customer);
 				System.out.println("Admin added new custoemr: " + customer.getCustomerId());
+				return ("Admin added new custoemr: " + customer.getCustomerId());
 			}
 		} catch (CustomerExistsException e) {
 			System.out.println(e.getMessage());
@@ -307,6 +308,7 @@ public class AdminUserFacade implements CouponClientFacade {
 			throw new Exception("Admin failed to add customer. customerId: " + customer.getCustomerId());
 		}
 
+		return null;
 	}
 
 	/*
@@ -321,7 +323,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	 * all the list objects. If customer id doesn't exist in DB,
 	 * ObjectNotFoundException is activated.
 	 */
-	public void removeCustomer(long customerId) throws Exception {
+	public String removeCustomer(long customerId) throws Exception {
 
 		try {
 
@@ -352,6 +354,7 @@ public class AdminUserFacade implements CouponClientFacade {
 			}
 			/* After all coupons removed, remove data from Customer table */
 			custAdminDAO.removeCustomer(customer);
+			return "Admin removed customer successfully. customerId: " + customerId;
 
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
@@ -359,6 +362,7 @@ public class AdminUserFacade implements CouponClientFacade {
 			throw new Exception("Admin failed to remove customer.  customerId: " + customerId);
 		}
 
+		return null;
 	}
 
 	/*
@@ -370,7 +374,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	 * relevant objects. Using Iterator in order to go through and check all the
 	 * list objects.
 	 */
-	public void updateCustomer(long customerId, String newCustomerPassword) throws Exception {
+	public String updateCustomer(long customerId, String newCustomerPassword) throws Exception {
 
 		try {
 
@@ -393,11 +397,13 @@ public class AdminUserFacade implements CouponClientFacade {
 			Customer customer = custAdminDAO.getCustomer(customerId);
 			customer.setCustomerPassword(newCustomerPassword);
 			custAdminDAO.updateCustomer(customer);
+			return "Admin updated customer successfully. customerId: " + customerId;
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			throw new Exception("Admin failed to update customer. customerId: " + customerId);
 		}
+		return null;
 	}
 
 	/*

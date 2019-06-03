@@ -1,5 +1,6 @@
 package com.couponsystem.bean;
 
+
 /**
  * @author Shay Ben Haroush
  *
@@ -12,13 +13,14 @@ package com.couponsystem.bean;
  * There is override method of toString in order to use another pattern of print.
  */ 
 
+
 public enum CouponType {
 
-	RESTURANTS
+	RESTAURANTS
 	{
 		@Override
 	    public String toString() {
-	      return "Resturants";
+	      return "Restaurants";
 		}
 	},	
 	

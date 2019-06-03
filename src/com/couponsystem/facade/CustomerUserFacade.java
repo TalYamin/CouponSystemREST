@@ -86,7 +86,7 @@ public class CustomerUserFacade implements CouponClientFacade {
 	 * Lists which hold all the relevant objects from DB, Using Iterator in order to
 	 * go through and check all the list objects.
 	 */
-	public void purchaseCoupon(long couponId) throws Exception {
+	public String purchaseCoupon(long couponId) throws Exception {
 
 		try {
 
@@ -139,6 +139,7 @@ public class CustomerUserFacade implements CouponClientFacade {
 					cus_couCustomerDAO.insertCustomer_Coupon(this.customer, newCoupon);
 					System.out.println(
 							"Customer " + customer.getCustomerName() + " purchased successfully Coupon " + couponId);
+					return "Customer " + customer.getCustomerName() + " purchased successfully Coupon " + couponId;
 				}
 			}
 		} catch (ObjectNotFoundException e) {
@@ -153,6 +154,7 @@ public class CustomerUserFacade implements CouponClientFacade {
 			throw new Exception("Customer failed to purchase coupon. couponId: " + couponId + " customerId: "
 					+ this.customer.getCustomerId());
 		}
+		return null;
 
 	}
 
