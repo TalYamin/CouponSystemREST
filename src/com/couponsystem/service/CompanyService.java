@@ -30,8 +30,8 @@ import com.google.gson.JsonParser;
 
 /* 
  * issues: 
- * addCoupon - star date
- * updateCoupon
+ * addCoupon - start date added in client side
+ * updateCoupon - json need to be transfered with Sting of date "d/mm/yyyy"
  * getAllCouponsByDate
 */
 @Path("/company")
@@ -111,13 +111,6 @@ public class CompanyService {
 	}
 
 	// update coupon
-//	@POST
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	@Produces(MediaType.APPLICATION_JSON)
-	// @Path("updateCoupon/{couponId}/{newEndDate}/{newPrice}")
-	// public RequestStatus updateCoupon(@PathParam("couponId") long couponId,
-	// @PathParam("newEndDate") String newEndDate,
-	// @PathParam("newPrice") double newPrice) throws Exception {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -282,29 +275,35 @@ public class CompanyService {
 	}
 
 	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("getAllCouponsByDate/{untilDate}")
-	public String getAllCouponsByDate(@PathParam("untilDate") String untilDate) throws Exception {
+	@Path("getAllCouponsByDate")
+	public String getAllCouponsByDate(String jsonString) throws Exception {
 
 		System.out.println("now in getAllCouponsByDate");
 
 		try {
-			// System.out.println(request.getSession(false).getId());
-			// CompanyUserFacade companyUserFacade = getFacade();
-			// List<Coupon> coupons = companyUserFacade.getAllCouponsByDate(untilDate);
-			// if (coupons != null) {
-			// System.out.println("All coupons by date were returned in success ");
-			// return new Gson().toJson(coupons);
-			// } else {
-			// throw new Exception("Company" +
-			// companyUserFacade.getCompany().getCompanyName()
-			// + "failed to get all coupons by date ");
-			// }
-			//
+			System.out.println(request.getSession(false).getId());
+			JsonParser parser = new JsonParser();
+			JsonObject obj = parser.parse(jsonString).getAsJsonObject();
+			String untilDate = obj.get("untilDate").getAsString();
+			CompanyUserFacade companyUserFacade = getFacade();
+			List<Coupon> coupons = companyUserFacade.getAllCouponsByDate(untilDate);
+			if (coupons != null) {
+				System.out.println("All coupons by date were returned in success ");
+				return new Gson().toJson(coupons);
+			} else {
+				throw new Exception("Company" + companyUserFacade.getCompany().getCompanyName()
+						+ "failed to get all coupons by date ");
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 
 	}
+	
+	
+	
 }
