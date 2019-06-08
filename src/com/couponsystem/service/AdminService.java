@@ -17,7 +17,10 @@ import javax.ws.rs.core.MediaType;
 import com.couponsystem.bean.Company;
 import com.couponsystem.bean.Customer;
 import com.couponsystem.facade.AdminUserFacade;
+import com.couponsystem.facade.CompanyUserFacade;
 import com.couponsystem.utils.RequestStatus;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 @Path("/admin")
 public class AdminService {
@@ -88,16 +91,20 @@ public class AdminService {
 
 	// update company
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("updateCompany/{companyId}/{newCompanyPassword}/{newCompanyEmail}")
-	public RequestStatus updateCompany(@PathParam("companyId") long companyId,
-			@PathParam("newCompanyPassword") String newCompanyPassword,
-			@PathParam("newCompanyEmail") String newCompanyEmail) throws Exception {
+	@Path("updateCompany")
+	public RequestStatus updateCompany(String jsonString) throws Exception {
 
 		System.out.println("now in updateCompany");
 
 		try {
 			System.out.println(request.getSession(false).getId());
+			JsonParser parser = new JsonParser();
+			JsonObject obj = parser.parse(jsonString).getAsJsonObject();
+			long companyId = Long.parseLong(obj.get("companyId").getAsString());
+			String newCompanyPassword = obj.get("newCompanyPassword").getAsString();
+			String newCompanyEmail = obj.get("newCompanyEmail").getAsString();
 			AdminUserFacade adminUserFacade = getFacade();
 			if (adminUserFacade.updateCompany(companyId, newCompanyPassword, newCompanyEmail) != null) {
 				System.out.println("Company was updated in success " + companyId);
@@ -218,15 +225,19 @@ public class AdminService {
 
 	// update customer
 	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("updateCustomer/{customerId}/{newCustomerPassword}")
-	public RequestStatus updateCustomer(@PathParam("customerId") long customerId,
-			@PathParam("newCustomerPassword") String newCustomerPassword) throws Exception {
+	@Path("updateCustomer")
+	public RequestStatus updateCustomer(String jsonString) throws Exception {
 
 		System.out.println("now in updateCustomer");
 
 		try {
 			System.out.println(request.getSession(false).getId());
+			JsonParser parser = new JsonParser();
+			JsonObject obj = parser.parse(jsonString).getAsJsonObject();
+			long customerId = Long.parseLong(obj.get("customerId").getAsString());
+			String newCustomerPassword = obj.get("newCustomerPassword").getAsString();
 			AdminUserFacade adminUserFacade = getFacade();
 			if (adminUserFacade.updateCustomer(customerId, newCustomerPassword) != null) {
 				System.out.println("Customer was updated in success " + customerId);
