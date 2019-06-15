@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import com.couponsystem.bean.Company;
 import com.couponsystem.bean.Customer;
+import com.couponsystem.exceptions.AdminServiceException;
 import com.couponsystem.facade.AdminUserFacade;
 import com.couponsystem.facade.CompanyUserFacade;
 import com.couponsystem.utils.ClientType;
@@ -26,6 +27,8 @@ import com.google.gson.JsonParser;
 
 @Path("/admin")
 public class AdminService {
+
+	private String requestMessage;
 
 	@Context
 	private HttpServletRequest request;
@@ -51,21 +54,22 @@ public class AdminService {
 		System.out.println("now in addCompany");
 
 		try {
-//			System.out.println(request.getSession(false).getId());
-//			AdminUserFacade adminUserFacade = getFacade();
-			CouponSystem couponSystem =CouponSystem.getInstance();
-			AdminUserFacade adminUserFacade = (AdminUserFacade) couponSystem.login("admin", "1234", ClientType.ADMIN);
-			if (adminUserFacade.insertCompany(company) != null) {
+			System.out.println(request.getSession(false).getId());
+			AdminUserFacade adminUserFacade = getFacade();
+			requestMessage = adminUserFacade.insertCompany(company);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Company was added in success " + company.getCompanyId());
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Admin failed to add company " + company.getCompanyId());
+				throw new AdminServiceException("Admin failed to add company ", company.getCompanyId(),
+						company.getCompanyName(), "company");
 			}
-
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -80,17 +84,20 @@ public class AdminService {
 		try {
 			System.out.println(request.getSession(false).getId());
 			AdminUserFacade adminUserFacade = getFacade();
-			if (adminUserFacade.removeCompany(companyId) != null) {
+			requestMessage = adminUserFacade.removeCompany(companyId);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Company was removed in success " + companyId);
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Admin failed to remove company " + companyId);
+				throw new AdminServiceException("Admin failed to remove company " + companyId);
 			}
 
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -111,17 +118,20 @@ public class AdminService {
 			String newCompanyPassword = obj.get("newCompanyPassword").getAsString();
 			String newCompanyEmail = obj.get("newCompanyEmail").getAsString();
 			AdminUserFacade adminUserFacade = getFacade();
-			if (adminUserFacade.updateCompany(companyId, newCompanyPassword, newCompanyEmail) != null) {
+			requestMessage = adminUserFacade.updateCompany(companyId, newCompanyPassword, newCompanyEmail);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Company was updated in success " + companyId);
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Admin failed to update company " + companyId);
+				throw new AdminServiceException("Admin failed to update company " + companyId);
 			}
 
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -141,9 +151,11 @@ public class AdminService {
 				System.out.println("All companies were returned in success ");
 				return companies;
 			} else {
-				throw new Exception("Admin failed to get all companies ");
+				throw new AdminServiceException("Admin failed to get all companies ");
 			}
 
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -167,9 +179,11 @@ public class AdminService {
 				System.out.println("company was returned in success " + companyId);
 				return company;
 			} else {
-				throw new Exception("Admin failed to get company " + companyId);
+				throw new AdminServiceException("Admin failed to get company " + companyId);
 			}
 
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -189,17 +203,20 @@ public class AdminService {
 		try {
 			System.out.println(request.getSession(false).getId());
 			AdminUserFacade adminUserFacade = getFacade();
-			if (adminUserFacade.insertCustomer(customer) != null) {
+			requestMessage = adminUserFacade.insertCustomer(customer);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Customer was added in success " + customer.getCustomerId());
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Admin failed to add customer " + customer.getCustomerId());
+				throw new AdminServiceException("Admin failed to add customer ", customer.getCustomerId(), customer.getCustomerName(), "customer");
 			}
 
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -214,17 +231,20 @@ public class AdminService {
 		try {
 			System.out.println(request.getSession(false).getId());
 			AdminUserFacade adminUserFacade = getFacade();
-			if (adminUserFacade.removeCustomer(customerId) != null) {
+			requestMessage = adminUserFacade.removeCustomer(customerId);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Customer was removed in success " + customerId);
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Admin failed to remove customer " + customerId);
+				throw new AdminServiceException("Admin failed to remove customer " + customerId);
 			}
 
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -244,17 +264,20 @@ public class AdminService {
 			long customerId = Long.parseLong(obj.get("customerId").getAsString());
 			String newCustomerPassword = obj.get("newCustomerPassword").getAsString();
 			AdminUserFacade adminUserFacade = getFacade();
-			if (adminUserFacade.updateCustomer(customerId, newCustomerPassword) != null) {
+			requestMessage = adminUserFacade.updateCustomer(customerId, newCustomerPassword);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Customer was updated in success " + customerId);
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Admin failed to update customer " + customerId);
+				throw new AdminServiceException("Admin failed to update customer " + customerId);
 			}
 
-		} catch (Exception e) {
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -274,10 +297,12 @@ public class AdminService {
 				System.out.println("All customers were returned in success ");
 				return customers;
 			} else {
-				throw new Exception("Admin failed to get all customers ");
+				throw new AdminServiceException("Admin failed to get all customers ");
 			}
 
-		} catch (Exception e) {
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
@@ -300,10 +325,12 @@ public class AdminService {
 				System.out.println("customer was returned in success " + customerId);
 				return customer;
 			} else {
-				throw new Exception("Admin failed to get customer " + customerId);
+				throw new AdminServiceException("Admin failed to get customer " + customerId);
 			}
 
-		} catch (Exception e) {
+		} catch (AdminServiceException e) {
+			System.out.println(e.getMessage());
+		}catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;

@@ -43,6 +43,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	private CouponDAO coupAdminDAO;
 	private Company_CouponDAO com_couAdminDAO;
 	private Customer_CouponDAO cus_couAdminDAO;
+	private String exceptionMessage;
 
 	/* Full CTOR: sets the client type and DAO to DBDAO */
 	public AdminUserFacade() {
@@ -69,6 +70,7 @@ public class AdminUserFacade implements CouponClientFacade {
 	public String insertCompany(Company company) throws Exception {
 		try {
 
+			
 			List<Company> companies = compAdminDAO.getAllCompanies();
 
 			Iterator<Company> i = companies.iterator();
@@ -84,17 +86,18 @@ public class AdminUserFacade implements CouponClientFacade {
 			if (!i.hasNext()) {
 				compAdminDAO.insertCompany(company);
 				System.out.println("Admin added new company: " + company.getCompanyId());
-				return "Admin added new company: " + company.getCompanyId();
+				return "success, Admin added new company: " + company.getCompanyId();
 
 			}
 
 		} catch (CompanyExistsException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (Exception e) {
 			throw new Exception("Admin failed to add company. companyId: " + company.getCompanyId());
 
 		}
-		return null;
+		return exceptionMessage;
 
 	}
 
@@ -157,13 +160,14 @@ public class AdminUserFacade implements CouponClientFacade {
 			}
 			/* Remove company from Company table */
 			compAdminDAO.removeCompany(compAdminDAO.getCompany(companyId));
-			return "Admin removed company successfully. companyId: " + companyId;
+			return "success, Admin removed company successfully. companyId: " + companyId;
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (Exception e) {
 			throw new Exception("Admin failed to remove company. companyId: " + companyId);
 		}
-		return null;
+		return exceptionMessage;
 
 	}
 
@@ -199,13 +203,14 @@ public class AdminUserFacade implements CouponClientFacade {
 			company.setCompanyPassword(newCompanyPassword);
 			company.setCompanyEmail(newCompanyEmail);
 			compAdminDAO.updateCompany(company);
-			return "Admin updated company successfully. companyId: " + companyId;
+			return "success, Admin updated company successfully. companyId: " + companyId;
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (Exception e) {
 			throw new Exception("Admin failed to update company. companyId: " + companyId);
 		}
-		return null;
+		return exceptionMessage;
 	}
 
 	/*
@@ -300,15 +305,16 @@ public class AdminUserFacade implements CouponClientFacade {
 			if (!i.hasNext()) {
 				custAdminDAO.insertCustomer(customer);
 				System.out.println("Admin added new custoemr: " + customer.getCustomerId());
-				return ("Admin added new custoemr: " + customer.getCustomerId());
+				return ("success, Admin added new custoemr: " + customer.getCustomerId());
 			}
 		} catch (CustomerExistsException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (Exception e) {
 			throw new Exception("Admin failed to add customer. customerId: " + customer.getCustomerId());
 		}
 
-		return null;
+		return exceptionMessage;
 	}
 
 	/*
@@ -354,15 +360,16 @@ public class AdminUserFacade implements CouponClientFacade {
 			}
 			/* After all coupons removed, remove data from Customer table */
 			custAdminDAO.removeCustomer(customer);
-			return "Admin removed customer successfully. customerId: " + customerId;
+			return "success, Admin removed customer successfully. customerId: " + customerId;
 
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (Exception e) {
 			throw new Exception("Admin failed to remove customer.  customerId: " + customerId);
 		}
 
-		return null;
+		return exceptionMessage;
 	}
 
 	/*
@@ -397,13 +404,14 @@ public class AdminUserFacade implements CouponClientFacade {
 			Customer customer = custAdminDAO.getCustomer(customerId);
 			customer.setCustomerPassword(newCustomerPassword);
 			custAdminDAO.updateCustomer(customer);
-			return "Admin updated customer successfully. customerId: " + customerId;
+			return "success, Admin updated customer successfully. customerId: " + customerId;
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (Exception e) {
 			throw new Exception("Admin failed to update customer. customerId: " + customerId);
 		}
-		return null;
+		return exceptionMessage;
 	}
 
 	/*

@@ -44,6 +44,7 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		session = request.getSession(true);
+		
 
 		System.out.println(session.getId() + " * " + session.getMaxInactiveInterval());
 
@@ -67,14 +68,17 @@ public class LoginServlet extends HttpServlet {
 
 				case ADMIN:
 //					response.sendRedirect("http://localhost:8080/CouponSystemREST/rest/admin");
+					response.sendRedirect("thankYou.html");
 					request.getRequestDispatcher("rest/admin").forward(request, response);
 					break;
 
 				case COMPANY:
+					response.sendRedirect("thankYou.html");
 					request.getRequestDispatcher("rest/company").forward(request, response);
 					break;
 
 				case CUSTOMER:
+					response.sendRedirect("thankYou.html");
 					request.getRequestDispatcher("rest/customer").forward(request, response);
 					break;
 

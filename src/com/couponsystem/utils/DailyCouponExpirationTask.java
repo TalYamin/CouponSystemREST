@@ -52,11 +52,9 @@ public class DailyCouponExpirationTask implements Runnable {
 	 */
 	public void startTask() throws Exception {
 		try {
-			if (Thread.activeCount() < 2) {
 				taskThread = new Thread(this);
 				taskThread.start();
 				System.out.println("Daily Coupon Expiration Task starting now");
-			}
 		} catch (Exception e) {
 			throw new DailyTaskException("Daily Coupon Expiration Task failed starting");
 		}
@@ -108,9 +106,9 @@ public class DailyCouponExpirationTask implements Runnable {
 				}
 				/*
 				 * should be 60*60*24*1000 = 24 hrs in milliseconds. But for test only i've used
-				 * 2000 milliseconds in order to demonstrate it works.
+				 * 10000 milliseconds in order to demonstrate it works.
 				 */
-				taskThread.sleep(2000);
+				taskThread.sleep(10000);
 			}
 
 		} catch (Exception e) {
