@@ -18,6 +18,8 @@ import com.couponsystem.bean.Company;
 import com.couponsystem.bean.Customer;
 import com.couponsystem.facade.AdminUserFacade;
 import com.couponsystem.facade.CompanyUserFacade;
+import com.couponsystem.utils.ClientType;
+import com.couponsystem.utils.CouponSystem;
 import com.couponsystem.utils.RequestStatus;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -35,6 +37,7 @@ public class AdminService {
 
 		AdminUserFacade admin = null;
 		admin = (AdminUserFacade) request.getSession(false).getAttribute("facade");
+		System.out.println(request.getSession(false).getAttribute("facade"));
 		return admin;
 	}
 
@@ -48,8 +51,10 @@ public class AdminService {
 		System.out.println("now in addCompany");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			AdminUserFacade adminUserFacade = getFacade();
+			CouponSystem couponSystem =CouponSystem.getInstance();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) couponSystem.login("admin", "1234", ClientType.ADMIN);
 			if (adminUserFacade.insertCompany(company) != null) {
 				System.out.println("Company was added in success " + company.getCompanyId());
 				return new RequestStatus(true);
