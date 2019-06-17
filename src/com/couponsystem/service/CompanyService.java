@@ -19,8 +19,10 @@ import javax.ws.rs.core.MediaType;
 
 import com.couponsystem.bean.Company;
 import com.couponsystem.bean.Coupon;
+import com.couponsystem.exceptions.CompanyServiceException;
 import com.couponsystem.facade.AdminUserFacade;
 import com.couponsystem.facade.CompanyUserFacade;
+import com.couponsystem.utils.ClientType;
 import com.couponsystem.utils.CouponSystem;
 import com.couponsystem.utils.DateConverterUtil;
 import com.couponsystem.utils.RequestStatus;
@@ -36,6 +38,8 @@ import com.google.gson.JsonParser;
 */
 @Path("/company")
 public class CompanyService {
+
+	private String requestMessage;
 
 	@Context
 	private HttpServletRequest request;
@@ -65,20 +69,24 @@ public class CompanyService {
 			JsonParser parser = new JsonParser();
 			JsonObject object = (JsonObject) parser.parse(jsonString);
 			Coupon coupon = gson.fromJson(object, Coupon.class);
-
 			System.out.println(request.getSession(false).getId());
 			CompanyUserFacade companyUserFacade = getFacade();
-			if (companyUserFacade.insertCoupon(coupon) != null) {
+			requestMessage = companyUserFacade.insertCoupon(coupon);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Coupon added in success " + coupon.getCouponId());
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Company failed to add coupon " + coupon.getCouponId());
+				throw new CompanyServiceException("Company failed to add coupon ",
+						companyUserFacade.getCompany().getCompanyId(), companyUserFacade.getCompany().getCompanyName(),
+						ClientType.COMPANY.toString(), coupon.getCouponId());
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -95,18 +103,22 @@ public class CompanyService {
 		try {
 			System.out.println(request.getSession(false).getId());
 			companyUserFacade = getFacade();
-			if (companyUserFacade.removeCoupon(couponId) != null) {
+			requestMessage = companyUserFacade.removeCoupon(couponId);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Coupon was removed in success " + couponId);
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Company" + companyUserFacade.getCompany().getCompanyName()
-						+ "failed to remove company " + couponId);
+				throw new CompanyServiceException("Company failed to remove coupon ",
+						companyUserFacade.getCompany().getCompanyId(), companyUserFacade.getCompany().getCompanyName(),
+						ClientType.COMPANY.toString(), couponId);
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -128,18 +140,22 @@ public class CompanyService {
 			String newEndDate = obj.get("newEndDate").getAsString();
 			double newPrice = Double.parseDouble(obj.get("newPrice").getAsString());
 			CompanyUserFacade companyUserFacade = getFacade();
-			if (companyUserFacade.updateCoupon(couponId, newEndDate, newPrice) != null) {
+			requestMessage = companyUserFacade.updateCoupon(couponId, newEndDate, newPrice);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Coupon was updated in success " + couponId);
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Company" + companyUserFacade.getCompany().getCompanyName()
-						+ " failed to update coupon " + couponId);
+				throw new CompanyServiceException("Company failed to update coupon ",
+						companyUserFacade.getCompany().getCompanyId(), companyUserFacade.getCompany().getCompanyName(),
+						ClientType.COMPANY.toString(), couponId);
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -159,10 +175,12 @@ public class CompanyService {
 				System.out.println("company was returned in success " + companyUserFacade.getCompany().getCompanyId());
 				return company;
 			} else {
-				throw new Exception(
+				throw new CompanyServiceException(
 						"Company" + companyUserFacade.getCompany().getCompanyName() + "failed to get company ");
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -186,9 +204,13 @@ public class CompanyService {
 				System.out.println("Coupon was returned in success " + couponId);
 				return new Gson().toJson(coupon);
 			} else {
-				throw new Exception("failed to get coupon " + couponId);
+				throw new CompanyServiceException("Company failed to get coupon ",
+						companyUserFacade.getCompany().getCompanyId(), companyUserFacade.getCompany().getCompanyName(),
+						ClientType.COMPANY.toString(), couponId);
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -211,10 +233,12 @@ public class CompanyService {
 				System.out.println("All coupons were returned in success ");
 				return new Gson().toJson(coupons);
 			} else {
-				throw new Exception(
+				throw new CompanyServiceException(
 						"Company" + companyUserFacade.getCompany().getCompanyName() + "failed to get all coupons ");
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -237,10 +261,12 @@ public class CompanyService {
 				System.out.println("All coupons by type were returned in success ");
 				return new Gson().toJson(coupons);
 			} else {
-				throw new Exception("Company" + companyUserFacade.getCompany().getCompanyName()
-						+ "failed to get all coupons by type ");
+				throw new CompanyServiceException("Company" + companyUserFacade.getCompany().getCompanyName()
+						+ "failed to get all coupons by type " + typeName);
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -263,10 +289,12 @@ public class CompanyService {
 				System.out.println("All coupons by price were returned in success ");
 				return new Gson().toJson(coupons);
 			} else {
-				throw new Exception("Company" + companyUserFacade.getCompany().getCompanyName()
-						+ "failed to get all coupons by price ");
+				throw new CompanyServiceException("Company" + companyUserFacade.getCompany().getCompanyName()
+						+ "failed to get all coupons by price " + priceTop);
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -293,17 +321,17 @@ public class CompanyService {
 				System.out.println("All coupons by date were returned in success ");
 				return new Gson().toJson(coupons);
 			} else {
-				throw new Exception("Company" + companyUserFacade.getCompany().getCompanyName()
-						+ "failed to get all coupons by date ");
+				throw new CompanyServiceException("Company" + companyUserFacade.getCompany().getCompanyName()
+						+ "failed to get all coupons by date " + untilDate);
 			}
 
+		} catch (CompanyServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 
 	}
-	
-	
-	
+
 }

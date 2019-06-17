@@ -20,7 +20,6 @@ import com.couponsystem.bean.Coupon;
 import com.couponsystem.bean.Customer;
 import com.couponsystem.utils.ClientType;
 
-
 /**
  * @author Tal Yamin
  *
@@ -42,6 +41,7 @@ public class CustomerUserFacade implements CouponClientFacade {
 	private CustomerDAO cusCustomerDAO;
 	private Customer_CouponDAO cus_couCustomerDAO;
 	private CouponDAO couCustomerDAO;
+	private String exceptionMessage;
 
 	/* empty CTOR of CustomerUserFacade */
 	public CustomerUserFacade() {
@@ -132,37 +132,46 @@ public class CustomerUserFacade implements CouponClientFacade {
 							c.getEndDate().toString(), couponId, this.customer.getCustomerId());
 				} else {
 
-					/* update amount of coupon in Coupon table and insert record to Customer_Coupon table */
+					/*
+					 * update amount of coupon in Coupon table and insert record to Customer_Coupon
+					 * table
+					 */
 					Coupon newCoupon = couCustomerDAO.getCoupon(couponId);
 					newCoupon.setAmount(newCoupon.getAmount() - 1);
 					couCustomerDAO.updateCoupon(newCoupon);
 					cus_couCustomerDAO.insertCustomer_Coupon(this.customer, newCoupon);
 					System.out.println(
 							"Customer " + customer.getCustomerName() + " purchased successfully Coupon " + couponId);
-					return "Customer " + customer.getCustomerName() + " purchased successfully Coupon " + couponId;
+					return "success, Customer " + customer.getCustomerName() + " purchased successfully Coupon "
+							+ couponId;
 				}
 			}
 		} catch (ObjectNotFoundException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (SamePurchaseException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (OutOfStockException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (CouponExpiredException e) {
 			System.out.println(e.getMessage());
+			exceptionMessage = e.getMessage();
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new Exception("Customer failed to purchase coupon. couponId: " + couponId + " customerId: "
 					+ this.customer.getCustomerId());
 		}
-		return null;
+		return exceptionMessage;
 
 	}
 
 	/*
-	 * Retrieves a all purchases which belong to this customer in DB. Get only coupons
-	 * which related in Join table to this customer ID. If there are no records in
-	 * DB, NoDetailsFoundException is activated. There are Lists which hold relevant
-	 * objects.
+	 * Retrieves a all purchases which belong to this customer in DB. Get only
+	 * coupons which related in Join table to this customer ID. If there are no
+	 * records in DB, NoDetailsFoundException is activated. There are Lists which
+	 * hold relevant objects.
 	 */
 	public List<Coupon> getAllPurchases() throws Exception {
 
@@ -175,7 +184,7 @@ public class CustomerUserFacade implements CouponClientFacade {
 				// get all Coupons objects that belongs to customer
 				couponsToGet.add(couCustomerDAO.getCoupon(cId));
 			}
-			
+
 			/* Check if there are no records in DB */
 			if (couponsToGet.isEmpty()) {
 				throw new NoDetailsFoundException(
@@ -199,10 +208,10 @@ public class CustomerUserFacade implements CouponClientFacade {
 	}
 
 	/*
-	 * This method receive 1 parameter: type name. Retrieves a all coupons
-	 * which belong to this customer and with specific type in DB. Get only coupons
-	 * which related in Join table to this customer ID. If there are no records in
-	 * DB, NoDetailsFoundException is activated. There are Lists which hold relevant
+	 * This method receive 1 parameter: type name. Retrieves a all coupons which
+	 * belong to this customer and with specific type in DB. Get only coupons which
+	 * related in Join table to this customer ID. If there are no records in DB,
+	 * NoDetailsFoundException is activated. There are Lists which hold relevant
 	 * objects.
 	 */
 	public List<Coupon> getAllCouponsByType(String typeName) throws Exception {
@@ -216,7 +225,7 @@ public class CustomerUserFacade implements CouponClientFacade {
 				couponsToGet.addAll(couCustomerDAO.getAllCouponsByType(cId, typeName));
 
 			}
-			
+
 			/* Check if there are no records in DB */
 			if (couponsToGet.isEmpty()) {
 				throw new NoDetailsFoundException(
@@ -240,8 +249,8 @@ public class CustomerUserFacade implements CouponClientFacade {
 	}
 
 	/*
-	 * This method receive 1 parameter: price top. Retrieves a all coupons
-	 * which belong to this customer and with specific price top in DB. Get only coupons
+	 * This method receive 1 parameter: price top. Retrieves a all coupons which
+	 * belong to this customer and with specific price top in DB. Get only coupons
 	 * which related in Join table to this customer ID. If there are no records in
 	 * DB, NoDetailsFoundException is activated. There are Lists which hold relevant
 	 * objects.
@@ -257,7 +266,7 @@ public class CustomerUserFacade implements CouponClientFacade {
 				couponsToGet.addAll(couCustomerDAO.getAllCouponsByPrice(cId, priceTop));
 
 			}
-			
+
 			/* Check if there are no records in DB */
 			if (couponsToGet.isEmpty()) {
 				throw new NoDetailsFoundException(

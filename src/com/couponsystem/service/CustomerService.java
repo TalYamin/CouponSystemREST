@@ -15,14 +15,18 @@ import javax.ws.rs.core.MediaType;
 import com.couponsystem.bean.Company;
 import com.couponsystem.bean.Coupon;
 import com.couponsystem.bean.Customer;
+import com.couponsystem.exceptions.CustomerServiceException;
 import com.couponsystem.facade.AdminUserFacade;
 import com.couponsystem.facade.CompanyUserFacade;
 import com.couponsystem.facade.CustomerUserFacade;
+import com.couponsystem.utils.ClientType;
 import com.couponsystem.utils.RequestStatus;
 import com.google.gson.Gson;
 
 @Path("/customer")
 public class CustomerService {
+
+	private String requestMessage;
 
 	@Context
 	private HttpServletRequest request;
@@ -54,10 +58,12 @@ public class CustomerService {
 						"customer was returned in success " + customerUserFacade.getCustomer().getCustomerId());
 				return customer;
 			} else {
-				throw new Exception(
+				throw new CustomerServiceException(
 						"Customer" + customerUserFacade.getCustomer().getCustomerId() + "failed to get customer ");
 			}
 
+		} catch (CustomerServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,18 +82,22 @@ public class CustomerService {
 		try {
 			System.out.println(request.getSession(false).getId());
 			CustomerUserFacade customerUserFacade = getFacade();
-			if (customerUserFacade.purchaseCoupon(couponId) != null) {
+			requestMessage = customerUserFacade.purchaseCoupon(couponId);
+			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("coupon was purchased in success " + couponId);
-				return new RequestStatus(true);
+				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new Exception("Customer" + customerUserFacade.getCustomer().getCustomerName()
-						+ " failed to purchase coupon " + couponId);
+				throw new CustomerServiceException("Customer failed to purchase coupon ",
+						customerUserFacade.getCustomer().getCustomerId(),
+						customerUserFacade.getCustomer().getCustomerName(), ClientType.CUSTOMER.toString(), couponId);
 			}
 
+		} catch (CustomerServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return new RequestStatus(false);
+		return new RequestStatus(false, requestMessage);
 
 	}
 
@@ -106,10 +116,12 @@ public class CustomerService {
 				System.out.println("All purchases were returned in success ");
 				return new Gson().toJson(coupons);
 			} else {
-				throw new Exception(
-						"Customer" + customerUserFacade.getCustomer().getCustomerName() + "failed to get all purchases ");
+				throw new CustomerServiceException("Customer" + customerUserFacade.getCustomer().getCustomerName()
+						+ "failed to get all purchases ");
 			}
 
+		} catch (CustomerServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -132,17 +144,19 @@ public class CustomerService {
 				System.out.println("All coupons by type were returned in success ");
 				return new Gson().toJson(coupons);
 			} else {
-				throw new Exception("Customer" + customerUserFacade.getCustomer().getCustomerName()
-						+ "failed to get all coupons by type ");
+				throw new CustomerServiceException("Customer" + customerUserFacade.getCustomer().getCustomerName()
+						+ "failed to get all coupons by type " + typeName);
 			}
 
+		} catch (CustomerServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("getAllCouponsByPrice/{priceTop}")
@@ -158,10 +172,12 @@ public class CustomerService {
 				System.out.println("All coupons by price were returned in success ");
 				return new Gson().toJson(coupons);
 			} else {
-				throw new Exception("Customer" + customerUserFacade.getCustomer().getCustomerName()
-						+ "failed to get all coupons by price ");
+				throw new CustomerServiceException("Customer" + customerUserFacade.getCustomer().getCustomerName()
+						+ "failed to get all coupons by price " + priceTop);
 			}
 
+		} catch (CustomerServiceException e) {
+			System.out.println(e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

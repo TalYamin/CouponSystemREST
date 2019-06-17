@@ -62,7 +62,7 @@ public class AdminService {
 				return new RequestStatus(true, requestMessage);
 			} else {
 				throw new AdminServiceException("Admin failed to add company ", company.getCompanyId(),
-						company.getCompanyName(), "company");
+						company.getCompanyName(), ClientType.COMPANY.toString());
 			}
 		} catch (AdminServiceException e) {
 			System.out.println(e.getMessage());
@@ -208,7 +208,7 @@ public class AdminService {
 				System.out.println("Customer was added in success " + customer.getCustomerId());
 				return new RequestStatus(true, requestMessage);
 			} else {
-				throw new AdminServiceException("Admin failed to add customer ", customer.getCustomerId(), customer.getCustomerName(), "customer");
+				throw new AdminServiceException("Admin failed to add customer ", customer.getCustomerId(), customer.getCustomerName(), ClientType.CUSTOMER.toString());
 			}
 
 		} catch (AdminServiceException e) {
