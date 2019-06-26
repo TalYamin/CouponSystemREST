@@ -1,36 +1,33 @@
 package com.couponsystem.config;
 
-import com.sun.jersey.spi.container.ContainerResponseFilter;
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerResponse;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
+import java.io.IOException;
 
-public class CorsFilter implements ContainerResponseFilter{
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletResponse;
 
-	public ContainerResponse filter(ContainerRequest req, ContainerResponse crunchifyContainerResponse) {
-		 
-        ResponseBuilder crunchifyResponseBuilder = Response.fromResponse(crunchifyContainerResponse.getResponse());
-        
-        // *(allow from all servers) OR https://crunchify.com/ OR http://example.com/
-        crunchifyResponseBuilder.header("Access-Control-Allow-Origin", "*")
-        
-        // As a part of the response to a request, which HTTP methods can be used during the actual request.
-        .header("Access-Control-Allow-Methods", "GET, POST")
-        
-        // How long the results of a request can be cached in a result cache.
-        .header("Access-Control-Max-Age", "151200")
-        
-        // As part of the response to a request, which HTTP headers can be used during the actual request.
-        .header("Access-Control-Allow-Headers", "x-requested-with,Content-Type");
- 
-        String crunchifyRequestHeader = req.getHeaderValue("Access-Control-Request-Headers");
- 
-        if (null != crunchifyRequestHeader && !crunchifyRequestHeader.equals(null)) {
-            crunchifyResponseBuilder.header("Access-Control-Allow-Headers", crunchifyRequestHeader);
-        }
- 
-        crunchifyContainerResponse.setResponse(crunchifyResponseBuilder.build());
-        return crunchifyContainerResponse;
+public class CorsFilter implements Filter {
+
+    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        HttpServletResponse response = (HttpServletResponse) res;
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Max-Age", "3600");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+        chain.doFilter(req, res);
+    }
+
+    public void destroy() {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void init(FilterConfig arg0) throws ServletException {
+        // TODO Auto-generated method stub
+
     }
 }

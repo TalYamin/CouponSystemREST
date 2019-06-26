@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 
 @XmlRootElement
-public class Company {
+public class Company  {
 
 	/* Data members of Company */
 	private long companyId;

@@ -54,8 +54,9 @@ public class AdminService {
 		System.out.println("now in addCompany");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+		//	System.out.println(request.getSession(false).getId());
+		//	AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			requestMessage = adminUserFacade.insertCompany(company);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Company was added in success " + company.getCompanyId());
@@ -82,8 +83,9 @@ public class AdminService {
 		System.out.println("now in removeCompany");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			requestMessage = adminUserFacade.removeCompany(companyId);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Company was removed in success " + companyId);
@@ -172,8 +174,9 @@ public class AdminService {
 		System.out.println("now in getCompany");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			Company company = adminUserFacade.getCompany(companyId);
 			if (company != null) {
 				System.out.println("company was returned in success " + companyId);
