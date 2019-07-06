@@ -287,6 +287,30 @@ public class CustomerUserFacade implements CouponClientFacade {
 		}
 		return null;
 	}
+	
+	public List<Coupon> getAllCouponsList() throws Exception {
+		
+		try {
+		List<Coupon> coupons = couCustomerDAO.getAllCoupons();
+		if (coupons.isEmpty()) {
+			throw new NoDetailsFoundException(
+					"Customer " + this.customer.getCustomerId()
+							+ " failed to get all coupons list - no details found",
+					this.customer.getCustomerId(), this.clientType);
+			
+		}
+		for (Coupon c : coupons) {
+			System.out.println(c);
+		}
+		return coupons;
+		}catch (NoDetailsFoundException e) {
+			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			throw new Exception("Customer failed to get coupons list. customerId: "
+					+ this.customer.getCustomerId());
+		}
+		return null;
+	}
 
 	/*
 	 * NOT IN USE - login process performed in the CouponSystem class. Override from

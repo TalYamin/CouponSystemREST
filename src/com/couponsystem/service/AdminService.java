@@ -113,13 +113,14 @@ public class AdminService {
 		System.out.println("now in updateCompany");
 
 		try {
-			System.out.println(request.getSession(false).getId());
+		//	System.out.println(request.getSession(false).getId());
 			JsonParser parser = new JsonParser();
 			JsonObject obj = parser.parse(jsonString).getAsJsonObject();
 			long companyId = Long.parseLong(obj.get("companyId").getAsString());
 			String newCompanyPassword = obj.get("newCompanyPassword").getAsString();
 			String newCompanyEmail = obj.get("newCompanyEmail").getAsString();
-			AdminUserFacade adminUserFacade = getFacade();
+		//	AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			requestMessage = adminUserFacade.updateCompany(companyId, newCompanyPassword, newCompanyEmail);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Company was updated in success " + companyId);
@@ -146,8 +147,9 @@ public class AdminService {
 		System.out.println("now in getAllCompanies");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			List<Company> companies = adminUserFacade.getAllCompanies();
 			if (companies != null) {
 				System.out.println("All companies were returned in success ");
@@ -204,8 +206,9 @@ public class AdminService {
 		System.out.println("now in addCustomer");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			requestMessage = adminUserFacade.insertCustomer(customer);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Customer was added in success " + customer.getCustomerId());
@@ -232,8 +235,9 @@ public class AdminService {
 		System.out.println("now in removeCustomer");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			requestMessage = adminUserFacade.removeCustomer(customerId);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Customer was removed in success " + customerId);
@@ -261,12 +265,13 @@ public class AdminService {
 		System.out.println("now in updateCustomer");
 
 		try {
-			System.out.println(request.getSession(false).getId());
+		//	System.out.println(request.getSession(false).getId());
 			JsonParser parser = new JsonParser();
 			JsonObject obj = parser.parse(jsonString).getAsJsonObject();
 			long customerId = Long.parseLong(obj.get("customerId").getAsString());
 			String newCustomerPassword = obj.get("newCustomerPassword").getAsString();
-			AdminUserFacade adminUserFacade = getFacade();
+		//	AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			requestMessage = adminUserFacade.updateCustomer(customerId, newCustomerPassword);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Customer was updated in success " + customerId);
@@ -293,8 +298,9 @@ public class AdminService {
 		System.out.println("now in getAllCustomers");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			List<Customer> customers = adminUserFacade.getAllCustomers();
 			if (customers != null) {
 				System.out.println("All customers were returned in success ");
@@ -321,8 +327,9 @@ public class AdminService {
 		System.out.println("now in getCustomer");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			AdminUserFacade adminUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			AdminUserFacade adminUserFacade = getFacade();
+			AdminUserFacade adminUserFacade = (AdminUserFacade) CouponSystem.getInstance().login("admin", "1234", ClientType.ADMIN);
 			Customer customer = adminUserFacade.getCustomer(customerId);
 			if (customer != null) {
 				System.out.println("customer was returned in success " + customerId);

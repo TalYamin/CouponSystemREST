@@ -69,8 +69,9 @@ public class CompanyService {
 			JsonParser parser = new JsonParser();
 			JsonObject object = (JsonObject) parser.parse(jsonString);
 			Coupon coupon = gson.fromJson(object, Coupon.class);
-			System.out.println(request.getSession(false).getId());
-			CompanyUserFacade companyUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			CompanyUserFacade companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			requestMessage = companyUserFacade.insertCoupon(coupon);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Coupon added in success " + coupon.getCouponId());
@@ -98,11 +99,12 @@ public class CompanyService {
 
 		System.out.println("now in removeCoupon");
 
-		CompanyUserFacade companyUserFacade;
+//		CompanyUserFacade companyUserFacade;
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			companyUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			requestMessage = companyUserFacade.removeCoupon(couponId);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Coupon was removed in success " + couponId);
@@ -133,13 +135,14 @@ public class CompanyService {
 
 		try {
 			System.out.println(jsonString);
-			System.out.println(request.getSession(false).getId());
+	//		System.out.println(request.getSession(false).getId());
 			JsonParser parser = new JsonParser();
 			JsonObject obj = parser.parse(jsonString).getAsJsonObject();
 			long couponId = Long.parseLong(obj.get("couponId").getAsString());
 			String newEndDate = obj.get("newEndDate").getAsString();
 			double newPrice = Double.parseDouble(obj.get("newPrice").getAsString());
-			CompanyUserFacade companyUserFacade = getFacade();
+		//	CompanyUserFacade companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			requestMessage = companyUserFacade.updateCoupon(couponId, newEndDate, newPrice);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("Coupon was updated in success " + couponId);
@@ -168,8 +171,9 @@ public class CompanyService {
 		System.out.println("now in getCompany");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			CompanyUserFacade companyUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			CompanyUserFacade companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			Company company = companyUserFacade.getCompany();
 			if (company != null) {
 				System.out.println("company was returned in success " + companyUserFacade.getCompany().getCompanyId());
@@ -197,8 +201,9 @@ public class CompanyService {
 		System.out.println("now in getCoupon");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			CompanyUserFacade companyUserFacade = getFacade();
+	//		System.out.println(request.getSession(false).getId());
+	//		CompanyUserFacade companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			Coupon coupon = companyUserFacade.getCoupon(couponId);
 			if (coupon != null) {
 				System.out.println("Coupon was returned in success " + couponId);
@@ -226,8 +231,9 @@ public class CompanyService {
 		System.out.println("now in getAllCoupons");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			CompanyUserFacade companyUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			CompanyUserFacade companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			List<Coupon> coupons = companyUserFacade.getAllCoupons();
 			if (coupons != null) {
 				System.out.println("All coupons were returned in success ");
@@ -254,8 +260,9 @@ public class CompanyService {
 		System.out.println("now in getAllCouponsByType");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			CompanyUserFacade companyUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			CompanyUserFacade companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			List<Coupon> coupons = companyUserFacade.getAllCouponsByType(typeName);
 			if (coupons != null) {
 				System.out.println("All coupons by type were returned in success ");
@@ -282,8 +289,9 @@ public class CompanyService {
 		System.out.println("now in getAllCouponsByPrice");
 
 		try {
-			System.out.println(request.getSession(false).getId());
-			CompanyUserFacade companyUserFacade = getFacade();
+//			System.out.println(request.getSession(false).getId());
+//			CompanyUserFacade companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			List<Coupon> coupons = companyUserFacade.getAllCouponsByPrice(priceTop);
 			if (coupons != null) {
 				System.out.println("All coupons by price were returned in success ");
@@ -302,7 +310,7 @@ public class CompanyService {
 
 	}
 
-	@GET
+	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Path("getAllCouponsByDate")
@@ -311,11 +319,12 @@ public class CompanyService {
 		System.out.println("now in getAllCouponsByDate");
 
 		try {
-			System.out.println(request.getSession(false).getId());
+		//	System.out.println(request.getSession(false).getId());
 			JsonParser parser = new JsonParser();
 			JsonObject obj = parser.parse(jsonString).getAsJsonObject();
 			String untilDate = obj.get("untilDate").getAsString();
-			CompanyUserFacade companyUserFacade = getFacade();
+		//	CompanyUserFacade companyUserFacade = getFacade();
+			CompanyUserFacade companyUserFacade = (CompanyUserFacade) CouponSystem.getInstance().login("Dell", "Dell9876", ClientType.COMPANY);
 			List<Coupon> coupons = companyUserFacade.getAllCouponsByDate(untilDate);
 			if (coupons != null) {
 				System.out.println("All coupons by date were returned in success ");

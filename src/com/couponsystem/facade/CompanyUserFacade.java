@@ -122,6 +122,7 @@ public class CompanyUserFacade implements CouponClientFacade {
 			exceptionMessage = e.getMessage();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			e.printStackTrace();
 			throw new Exception("Company failed to add coupon. couponId: " + coupon.getCouponId());
 		}
 		return exceptionMessage;

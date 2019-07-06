@@ -35,7 +35,7 @@ public class Coupon {
 	private double price;
 	private String image;
 	private String customStartDate;
-	private String customeEndDate;
+	private String customEndDate;
 	private boolean active;
 
 	/* Empty CTOR Coupon */
@@ -167,10 +167,10 @@ public class Coupon {
 	public String toString() {
 
 		customStartDate = DateConverterUtil.DateStringFormat(this.startDate);
-		customeEndDate = DateConverterUtil.DateStringFormat(this.endDate);
+		customEndDate = DateConverterUtil.DateStringFormat(this.endDate);
 
 		return "Coupon [couponId=" + this.getCouponId() + ", title=" + this.getTitle() + ", startDate="
-				+ this.customStartDate + ", endDate=" + this.customeEndDate + ", amount=" + this.getAmount() + ", type="
+				+ this.customStartDate + ", endDate=" + this.customEndDate + ", amount=" + this.getAmount() + ", type="
 				+ this.getType() + ", couponMessage=" + this.getCouponMessage() + ", price=" + this.getPrice()
 				+ ", image=" + this.getImage() + ", active=" + this.isActive() + "]";
 	}
