@@ -51,9 +51,8 @@ public class CustomerService {
 		System.out.println("now in getCustomer");
 
 		try {
-//			System.out.println(request.getSession(false).getId());
-//			CustomerUserFacade customerUserFacade = getFacade();
-			CustomerUserFacade customerUserFacade = (CustomerUserFacade) CouponSystem.getInstance().login("Tal Yamin", "313Tal313", ClientType.CUSTOMER);
+			System.out.println(request.getSession(false).getId());
+			CustomerUserFacade customerUserFacade = getFacade();
 			Customer customer = customerUserFacade.getCustomer();
 			if (customer != null) {
 				System.out.println(
@@ -82,9 +81,8 @@ public class CustomerService {
 		System.out.println("now in purchaseCoupon");
 
 		try {
-//			System.out.println(request.getSession(false).getId());
-//			CustomerUserFacade customerUserFacade = getFacade();
-			CustomerUserFacade customerUserFacade = (CustomerUserFacade) CouponSystem.getInstance().login("Tal Yamin", "313Tal313", ClientType.CUSTOMER);
+			System.out.println(request.getSession(false).getId());
+			CustomerUserFacade customerUserFacade = getFacade();
 			requestMessage = customerUserFacade.purchaseCoupon(couponId);
 			if (requestMessage.indexOf("success") != -1) {
 				System.out.println("coupon was purchased in success " + couponId);
@@ -112,9 +110,8 @@ public class CustomerService {
 		System.out.println("now in getAllPurchases");
 
 		try {
-//			System.out.println(request.getSession(false).getId());
-//			CustomerUserFacade customerUserFacade = getFacade();
-			CustomerUserFacade customerUserFacade = (CustomerUserFacade) CouponSystem.getInstance().login("Tal Yamin", "313Tal313", ClientType.CUSTOMER);
+			System.out.println(request.getSession(false).getId());
+			CustomerUserFacade customerUserFacade = getFacade();
 			List<Coupon> coupons = customerUserFacade.getAllPurchases();
 			if (coupons != null) {
 				System.out.println("All purchases were returned in success ");
@@ -141,9 +138,8 @@ public class CustomerService {
 		System.out.println("now in getAllCouponsByType");
 
 		try {
-//			System.out.println(request.getSession(false).getId());
-//			CustomerUserFacade customerUserFacade = getFacade();
-			CustomerUserFacade customerUserFacade = (CustomerUserFacade) CouponSystem.getInstance().login("Tal Yamin", "313Tal313", ClientType.CUSTOMER);
+			System.out.println(request.getSession(false).getId());
+			CustomerUserFacade customerUserFacade = getFacade();
 			List<Coupon> coupons = customerUserFacade.getAllCouponsByType(typeName);
 			if (coupons != null) {
 				System.out.println("All coupons by type were returned in success ");
@@ -170,9 +166,8 @@ public class CustomerService {
 		System.out.println("now in getAllCouponsByPrice");
 
 		try {
-//			System.out.println(request.getSession(false).getId());
-//			CustomerUserFacade customerUserFacade = getFacade();
-			CustomerUserFacade customerUserFacade = (CustomerUserFacade) CouponSystem.getInstance().login("Tal Yamin", "313Tal313", ClientType.CUSTOMER);
+			System.out.println(request.getSession(false).getId());
+			CustomerUserFacade customerUserFacade = getFacade();
 			List<Coupon> coupons = customerUserFacade.getAllCouponsByPrice(priceTop);
 			if (coupons != null) {
 				System.out.println("All coupons by price were returned in success ");
@@ -199,9 +194,8 @@ public class CustomerService {
 		System.out.println("now in getAllCouponsList");
 
 		try {
-//			System.out.println(request.getSession(false).getId());
-//			CustomerUserFacade customerUserFacade = getFacade();
-			CustomerUserFacade customerUserFacade = (CustomerUserFacade) CouponSystem.getInstance().login("Tal Yamin", "313Tal313", ClientType.CUSTOMER);
+			System.out.println(request.getSession(false).getId());
+			CustomerUserFacade customerUserFacade = getFacade();
 			List<Coupon> coupons = customerUserFacade.getAllCouponsList();
 			if (coupons != null) {
 				System.out.println("All coupons list was returned in success ");
