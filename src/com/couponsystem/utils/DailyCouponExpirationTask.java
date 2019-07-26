@@ -52,11 +52,13 @@ public class DailyCouponExpirationTask implements Runnable {
 	 */
 	public void startTask() throws Exception {
 		try {
-			//if (Thread.activeCount() < 2) {
+			if (Thread.activeCount() < 32) {
+			System.out.println(Thread.activeCount());
 				taskThread = new Thread(this);
 				taskThread.start();
 				System.out.println("Daily Coupon Expiration Task starting now");
-	//			}
+				System.out.println(Thread.activeCount());
+				}
 		} catch (Exception e) {
 			throw new DailyTaskException("Daily Coupon Expiration Task failed starting");
 		}

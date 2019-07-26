@@ -35,7 +35,6 @@ import com.google.gson.JsonParser;
 public class LoginService {
 
 	private CouponSystem system;
-	private String jsessionid;
 	private CompanyDAO companyLoginDAO = new CompanyDBDAO();
 	private CustomerDAO customerLoginDAO = new CustomerDBDAO();
 
